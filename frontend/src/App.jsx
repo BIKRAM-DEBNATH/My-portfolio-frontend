@@ -156,7 +156,7 @@ export default function Portfolio() {
         "Report generation with export",
       ],
       github: "https://github.com/BIKRAM-DEBNATH", // 🔗 UPDATE: Add your actual GitHub repo link here
-      live: "https://your-employee-management.vercel.app", // 🔗 UPDATE: Add your actual live demo link here
+      live: "https://vercel.com/bikramdebnath907yt-gmailcoms-projects/office-management-system", // 🔗 UPDATE: Add your actual live demo link here
       loginCredentials: {
         admin: {
           email: "admin@example.com",
