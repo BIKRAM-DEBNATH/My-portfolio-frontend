@@ -19,11 +19,11 @@ import {
   User,
   Lock,
   Flame,
-  Import,
+  Snowflake,
+  Leaf,
 } from "lucide-react"
-import bikramimg from "./image/bikram.jpg";
 
-<img src={bikramimg} alt="Bikram Debnath - BCA Student & Developer" className="profile-image" />
+import bikramimg from "./image/bikram.jpg"
 
 // Import CSS files
 import "./styles/components.css"
@@ -65,7 +65,7 @@ const Badge = ({ children, className = "", variant = "default", ...props }) => {
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [theme, setTheme] = useState("light") // light, dark, fire
+  const [theme, setTheme] = useState("light") // light, dark, fire, snow, jungle
   const [isLoading, setIsLoading] = useState(true)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [activeFilter, setActiveFilter] = useState("all")
@@ -81,7 +81,7 @@ export default function Portfolio() {
 
   // Theme cycling function
   const cycleTheme = () => {
-    const themes = ["light", "dark", "fire"]
+    const themes = ["light", "dark", "fire", "snow", "jungle"]
     const currentIndex = themes.indexOf(theme)
     const nextIndex = (currentIndex + 1) % themes.length
     setTheme(themes[nextIndex])
@@ -91,13 +91,17 @@ export default function Portfolio() {
   const getThemeIcon = () => {
     switch (theme) {
       case "light":
-        return <Sun className="h-5 w-5" />
+        return <Sun className="h-5 w-5 theme-icon" />
       case "dark":
-        return <Moon className="h-5 w-5" />
+        return <Moon className="h-5 w-5 theme-icon" />
       case "fire":
-        return <Flame className="h-5 w-5" />
+        return <Flame className="h-5 w-5 theme-icon" />
+      case "snow":
+        return <Snowflake className="h-5 w-5 theme-icon" />
+      case "jungle":
+        return <Leaf className="h-5 w-5 theme-icon" />
       default:
-        return <Sun className="h-5 w-5" />
+        return <Sun className="h-5 w-5 theme-icon" />
     }
   }
 
@@ -232,35 +236,33 @@ export default function Portfolio() {
     }))
   }
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setIsSubmitting(true);
-  setSubmitStatus("");
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitStatus(null)
 
-  try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/contact`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
 
-    const result = await response.json();
-
-    if (result.message && response.ok) {
-      setSubmitStatus("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
-    } else {
-      setSubmitStatus("error");
+      if (response.ok) {
+        setSubmitStatus("success")
+        setFormData({ name: "", email: "", subject: "", message: "" })
+      } else {
+        setSubmitStatus("error")
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error)
+      setSubmitStatus("error")
+    } finally {
+      setIsSubmitting(false)
     }
-  } catch (error) {
-    console.error("Submission error:", error);
-    setSubmitStatus("error");
-  } finally {
-    setIsSubmitting(false);
   }
-};
-
-
 
   if (isLoading) {
     return (
@@ -299,12 +301,20 @@ export default function Portfolio() {
             <div className="nav-actions">
               <button
                 onClick={cycleTheme}
-                className="theme-switcher btn btn-ghost btn-icon"
-                title={`Switch to ${theme === "light" ? "dark" : theme === "dark" ? "fire" : "light"} theme`}
+                className="theme-switcher"
+                title={`Switch to ${
+                  theme === "light"
+                    ? "dark"
+                    : theme === "dark"
+                      ? "fire"
+                      : theme === "fire"
+                        ? "snow"
+                        : theme === "snow"
+                          ? "jungle"
+                          : "light"
+                } theme`}
               >
-                {theme === "light" && <Sun className="h-5 w-5" />}
-                {theme === "dark" && <Moon className="h-5 w-5" />}
-                {theme === "fire" && <Flame className="h-5 w-5" />}
+                {getThemeIcon()}
               </button>
 
               <button className="mobile-menu-btn btn btn-ghost btn-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -386,7 +396,11 @@ export default function Portfolio() {
             <div className="hero-image">
               <div className="profile-container">
                 {/* 🖼️ UPDATE: Replace with your actual profile image */}
-                <img src={bikramimg} alt="Bikram Debnath - BCA Student & Developer" className="profile-image" />
+                <img
+                  src={bikramimg || "/placeholder.svg"}
+                  alt="Bikram Debnath - BCA Student & Developer"
+                  className="profile-image"
+                />
                 <div className="profile-overlay"></div>
 
                 {/* Floating Tech Icons */}

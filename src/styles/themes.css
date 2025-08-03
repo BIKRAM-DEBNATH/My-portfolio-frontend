@@ -91,6 +91,145 @@
   z-index: 1;
 }
 
+/* Himalayan Ice/Snow Theme - Bright Glacial Theme */
+.theme-snow {
+  --bg-primary: #fafcff;
+  --bg-secondary: #f0f8ff;
+  --text-primary: #1e3a5f;
+  --text-secondary: #2563eb;
+  --text-muted: #3b82f6;
+  --accent-color: #0ea5e9;
+  --accent-hover: #0284c7;
+  --border-color: #bfdbfe;
+  --hero-bg: linear-gradient(135deg, #ffffff 0%, #f0f8ff 25%, #e0f2fe 50%, #bae6fd 100%);
+  --footer-bg: #1e3a5f;
+  --footer-text: #f0f8ff;
+  --card-bg: #ffffff;
+  --card-border: #bfdbfe;
+  --skill-bar-bg: #e0f2fe;
+  --timeline-line: #0ea5e9;
+}
+
+.theme-snow .header {
+  background-color: rgba(250, 252, 255, 0.95);
+  border-bottom-color: #bfdbfe;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.1);
+}
+
+.theme-snow .hero-section {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 20%, #e0f2fe 40%, #bae6fd 70%, #7dd3fc 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Himalayan Mountain Peaks Background */
+.theme-snow .hero-section::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to top, rgba(186, 230, 253, 0.3) 0%, transparent 100%),
+    conic-gradient(from 45deg at 20% 100%, rgba(255, 255, 255, 0.8) 0deg, transparent 60deg),
+    conic-gradient(from 135deg at 40% 100%, rgba(224, 242, 254, 0.9) 0deg, transparent 80deg),
+    conic-gradient(from 225deg at 60% 100%, rgba(255, 255, 255, 0.7) 0deg, transparent 70deg),
+    conic-gradient(from 315deg at 80% 100%, rgba(186, 230, 253, 0.8) 0deg, transparent 90deg);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Animated Snowfall - Bright Daylight Snow */
+.theme-snow .hero-section::after {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(3px 3px at 20px 30px, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(2px 2px at 40px 70px, rgba(186, 230, 253, 0.8), transparent),
+    radial-gradient(2px 2px at 90px 40px, rgba(255, 255, 255, 0.95), transparent),
+    radial-gradient(1px 1px at 130px 80px, rgba(224, 242, 254, 0.7), transparent),
+    radial-gradient(3px 3px at 160px 30px, rgba(255, 255, 255, 0.85), transparent);
+  background-repeat: repeat;
+  background-size: 200px 120px;
+  animation: brightSnowfall 18s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.theme-snow .hero-content {
+  position: relative;
+  z-index: 3;
+}
+
+/* Jungle Theme */
+.theme-jungle {
+  --bg-primary: #0f1a0f;
+  --bg-secondary: #1a2e1a;
+  --text-primary: #ecfdf5;
+  --text-secondary: #bbf7d0;
+  --text-muted: #86efac;
+  --accent-color: #22c55e;
+  --accent-hover: #16a34a;
+  --border-color: #166534;
+  --hero-bg: linear-gradient(135deg, #0f1a0f 0%, #1a2e1a 25%, #166534 75%, #15803d 100%);
+  --footer-bg: #0a0f0a;
+  --footer-text: #bbf7d0;
+  --card-bg: #1a2e1a;
+  --card-border: #166534;
+  --skill-bar-bg: #166534;
+  --timeline-line: #22c55e;
+}
+
+.theme-jungle .header {
+  background-color: rgba(15, 26, 15, 0.9);
+  border-bottom-color: #166534;
+}
+
+.theme-jungle .hero-section {
+  background: linear-gradient(135deg, #0f1a0f 0%, #1a2e1a 25%, #166534 50%, #15803d 100%);
+  position: relative;
+}
+
+.theme-jungle .hero-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 20% 80%, rgba(34, 197, 94, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(22, 163, 74, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(187, 247, 208, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.theme-jungle .hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Bright Snowfall Animation */
+@keyframes brightSnowfall {
+  0% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(calc(100vh + 100px));
+    opacity: 0;
+  }
+}
+
 /* Fire theme specific animations */
 .theme-fire .hero-name {
   background: linear-gradient(45deg, #fbbf24, #f97316, #ea580c);
@@ -98,6 +237,25 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: fireGlow 3s ease-in-out infinite alternate;
+}
+
+/* Himalayan Snow theme specific animations */
+.theme-snow .hero-name {
+  background: linear-gradient(45deg, #0ea5e9, #3b82f6, #1d4ed8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: glacialGlow 3s ease-in-out infinite alternate;
+  text-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
+}
+
+/* Jungle theme specific animations */
+.theme-jungle .hero-name {
+  background: linear-gradient(45deg, #22c55e, #16a34a, #15803d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: jungleGlow 3s ease-in-out infinite alternate;
 }
 
 @keyframes fireGlow {
@@ -109,27 +267,221 @@
   }
 }
 
+@keyframes glacialGlow {
+  0% {
+    filter: drop-shadow(0 0 8px rgba(14, 165, 233, 0.4));
+    text-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
+  }
+  100% {
+    filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.7));
+    text-shadow: 0 0 30px rgba(14, 165, 233, 0.4);
+  }
+}
+
+@keyframes jungleGlow {
+  0% {
+    filter: drop-shadow(0 0 5px rgba(34, 197, 94, 0.5));
+  }
+  100% {
+    filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.8));
+  }
+}
+
+/* Himalayan Ice-Crystal Tech Icons */
+.theme-snow .tech-icon {
+  background: linear-gradient(145deg, #ffffff 0%, #f0f8ff 30%, #e0f2fe 70%, #bae6fd 100%);
+  border: 3px solid #0ea5e9;
+  box-shadow:
+    0 8px 32px rgba(14, 165, 233, 0.3),
+    0 0 20px rgba(255, 255, 255, 0.8),
+    inset 0 4px 8px rgba(255, 255, 255, 0.6),
+    inset 0 -2px 4px rgba(14, 165, 233, 0.2);
+  position: relative;
+  backdrop-filter: blur(10px);
+  color: #1e3a5f;
+}
+
+.theme-snow .tech-icon::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(14, 165, 233, 0.3) 25%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(59, 130, 246, 0.4) 75%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  border-radius: inherit;
+  z-index: -1;
+  animation: glacialShimmer 4s ease-in-out infinite;
+}
+
+.theme-snow .tech-icon::after {
+  content: "❄️";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  opacity: 0.9;
+  animation: snowCrystalFloat 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+}
+
+/* Theme-specific tech icons */
 .theme-fire .tech-icon {
   background: linear-gradient(45deg, #1a0f0a, #451a03);
   border: 1px solid #f97316;
   box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
 }
 
+.theme-jungle .tech-icon {
+  background: linear-gradient(45deg, #1a2e1a, #166534);
+  border: 1px solid #22c55e;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+}
+
+/* Glacial shimmer effect */
+@keyframes glacialShimmer {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1) rotate(0deg);
+  }
+  25% {
+    opacity: 0.9;
+    transform: scale(1.02) rotate(90deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) rotate(180deg);
+  }
+  75% {
+    opacity: 0.8;
+    transform: scale(1.02) rotate(270deg);
+  }
+}
+
+@keyframes snowCrystalFloat {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0px) rotate(0deg) scale(1);
+    opacity: 0.9;
+  }
+  25% {
+    transform: translateX(-50%) translateY(-4px) rotate(90deg) scale(1.1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) translateY(-6px) rotate(180deg) scale(0.9);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translateX(-50%) translateY(-3px) rotate(270deg) scale(1.05);
+    opacity: 1;
+  }
+}
+
+/* Theme-specific skill progress bars */
 .theme-fire .skill-progress {
   background: linear-gradient(90deg, #f97316, #fbbf24);
   box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
 }
 
+.theme-snow .skill-progress {
+  background: linear-gradient(90deg, #0ea5e9 0%, #3b82f6 50%, #1d4ed8 100%);
+  box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4), 0 0 15px rgba(255, 255, 255, 0.6), inset 0 2px 4px
+    rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+  position: relative;
+  border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.theme-snow .skill-progress::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.4) 25%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(255, 255, 255, 0.3) 75%,
+    rgba(255, 255, 255, 0.8) 100%
+  );
+  border-radius: inherit;
+  animation: glacialGlisten 3s ease-in-out infinite;
+}
+
+@keyframes glacialGlisten {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translateX(100%) skewX(-15deg);
+  }
+}
+
+.theme-jungle .skill-progress {
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+/* Theme-specific project cards */
 .theme-fire .project-card:hover {
   box-shadow: 0 25px 50px -12px rgba(249, 115, 22, 0.25);
   border: 1px solid rgba(249, 115, 22, 0.3);
 }
 
+.theme-snow .project-card {
+  background: linear-gradient(145deg, #ffffff 0%, #f0f8ff 100%);
+  border: 2px solid #bfdbfe;
+  box-shadow: 0 8px 32px rgba(14, 165, 233, 0.15), 0 0 20px rgba(255, 255, 255, 0.5), inset 0 2px 4px
+    rgba(255, 255, 255, 0.8);
+}
+
+.theme-snow .project-card:hover {
+  box-shadow: 0 25px 50px -12px rgba(14, 165, 233, 0.3), 0 0 40px rgba(14, 165, 233, 0.2), 0 0 60px
+    rgba(255, 255, 255, 0.4), inset 0 2px 4px rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(14, 165, 233, 0.5);
+  transform: translateY(-8px);
+}
+
+.theme-jungle .project-card:hover {
+  box-shadow: 0 25px 50px -12px rgba(34, 197, 94, 0.25);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* Theme-specific timeline markers */
 .theme-fire .timeline-marker {
   background: linear-gradient(45deg, #f97316, #fbbf24);
   box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
 }
 
+.theme-snow .timeline-marker {
+  background: linear-gradient(45deg, #ffffff 0%, #0ea5e9 50%, #3b82f6 100%);
+  box-shadow: 0 0 25px rgba(14, 165, 233, 0.5), 0 0 40px rgba(255, 255, 255, 0.6), inset 0 3px 6px
+    rgba(255, 255, 255, 0.8);
+  border: 3px solid rgba(255, 255, 255, 0.9);
+}
+
+.theme-jungle .timeline-marker {
+  background: linear-gradient(45deg, #22c55e, #16a34a);
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.5);
+}
+
+/* Theme-specific buttons */
 .theme-fire .btn-primary {
   background: linear-gradient(45deg, #f97316, #ea580c);
   border: none;
@@ -142,6 +494,58 @@
   transform: translateY(-2px);
 }
 
+.theme-snow .btn-primary {
+  background: linear-gradient(45deg, #0ea5e9 0%, #3b82f6 50%, #1d4ed8 100%);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4), 0 0 20px rgba(255, 255, 255, 0.3), inset 0 2px 4px
+    rgba(255, 255, 255, 0.5);
+  position: relative;
+  overflow: hidden;
+  color: white;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.theme-snow .btn-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0.8),
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  transition: left 0.6s ease;
+}
+
+.theme-snow .btn-primary:hover::before {
+  left: 100%;
+}
+
+.theme-snow .btn-primary:hover {
+  background: linear-gradient(45deg, #0284c7 0%, #1d4ed8 50%, #1e40af 100%);
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.5), 0 0 30px rgba(255, 255, 255, 0.4), 0 0 50px rgba(14, 165, 233, 0.3);
+  transform: translateY(-3px);
+}
+
+.theme-jungle .btn-primary {
+  background: linear-gradient(45deg, #22c55e, #16a34a);
+  border: none;
+  box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+}
+
+.theme-jungle .btn-primary:hover {
+  background: linear-gradient(45deg, #16a34a, #15803d);
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Theme-specific social links */
 .theme-fire .social-link,
 .theme-fire .social-btn {
   background: linear-gradient(45deg, #1a0f0a, #451a03);
@@ -155,7 +559,37 @@
   box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
 }
 
-/* Fire theme loading screen */
+.theme-snow .social-link,
+.theme-snow .social-btn {
+  background: linear-gradient(145deg, #ffffff 0%, #f0f8ff 100%);
+  border: 2px solid #0ea5e9;
+  color: #1e3a5f;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.2), 0 0 15px rgba(255, 255, 255, 0.5), inset 0 2px 4px
+    rgba(255, 255, 255, 0.8);
+}
+
+.theme-snow .social-link:hover,
+.theme-snow .social-btn:hover {
+  background: linear-gradient(145deg, #f0f8ff 0%, #e0f2fe 100%);
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.3), 0 0 25px rgba(255, 255, 255, 0.6), 0 0 40px rgba(14, 165, 233, 0.2);
+  color: #0ea5e9;
+  transform: translateY(-2px);
+}
+
+.theme-jungle .social-link,
+.theme-jungle .social-btn {
+  background: linear-gradient(45deg, #1a2e1a, #166534);
+  border: 1px solid #22c55e;
+  color: #bbf7d0;
+}
+
+.theme-jungle .social-link:hover,
+.theme-jungle .social-btn:hover {
+  background: linear-gradient(45deg, #166534, #15803d);
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+}
+
+/* Theme-specific loading screens */
 .theme-fire .loading-screen {
   background: radial-gradient(circle, #1a0f0a 0%, #0f0f0f 100%);
 }
@@ -171,12 +605,60 @@
   box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
 }
 
+.theme-snow .loading-screen {
+  background: radial-gradient(circle, #f0f8ff 0%, #ffffff 100%);
+  position: relative;
+}
+
+.theme-snow .loading-screen::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(2px 2px at 20px 30px, rgba(14, 165, 233, 0.4), transparent),
+    radial-gradient(3px 3px at 40px 70px, rgba(255, 255, 255, 0.9), transparent),
+    radial-gradient(2px 2px at 90px 40px, rgba(59, 130, 246, 0.3), transparent);
+  background-repeat: repeat;
+  background-size: 120px 100px;
+  animation: brightSnowfall 12s linear infinite;
+  pointer-events: none;
+}
+
+.theme-snow .loading-logo {
+  color: #0ea5e9;
+  text-shadow: 0 0 25px rgba(14, 165, 233, 0.6), 0 0 40px rgba(255, 255, 255, 0.8);
+}
+
+.theme-snow .loading-spinner {
+  border-color: #0ea5e9;
+  border-top-color: transparent;
+  box-shadow: 0 0 30px rgba(14, 165, 233, 0.5), 0 0 50px rgba(255, 255, 255, 0.4), inset 0 0 15px
+    rgba(14, 165, 233, 0.2);
+}
+
+.theme-jungle .loading-screen {
+  background: radial-gradient(circle, #1a2e1a 0%, #0f1a0f 100%);
+}
+
+.theme-jungle .loading-logo {
+  color: #22c55e;
+  text-shadow: 0 0 20px rgba(34, 197, 94, 0.8);
+}
+
+.theme-jungle .loading-spinner {
+  border-color: #22c55e;
+  border-top-color: transparent;
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
 /* Theme transition */
 .portfolio {
   transition: all 0.3s ease-in-out;
 }
 
-/* Enhanced Theme Switcher with Magic, Evil, and Fire Effects */
+/* Enhanced Theme Switcher with All Effects */
 .theme-switcher {
   position: relative;
   width: 48px;
@@ -230,7 +712,6 @@
   opacity: 1;
 }
 
-/* Magic sparkle particles */
 .theme-light .theme-switcher::after {
   content: "✨";
   position: absolute;
@@ -278,7 +759,6 @@
   opacity: 0.6;
 }
 
-/* Evil smile effect */
 .theme-dark .theme-switcher::after {
   content: "😈";
   position: absolute;
@@ -344,6 +824,117 @@
 .theme-fire .theme-switcher:hover {
   background: linear-gradient(135deg, #451a03 0%, #7c2d12 50%, #dc2626 100%);
   box-shadow: 0 0 20px rgba(249, 115, 22, 0.6), 0 0 40px rgba(249, 115, 22, 0.4), 0 8px 25px rgba(249, 115, 22, 0.3);
+  transform: scale(1.15);
+}
+
+/* Himalayan Snow Theme - Glacial Crystal Effect */
+.theme-snow .theme-switcher {
+  background: linear-gradient(145deg, #ffffff 0%, #f0f8ff 50%, #e0f2fe 100%);
+  border: 3px solid #0ea5e9;
+  color: #0ea5e9;
+  position: relative;
+  overflow: visible;
+  box-shadow: 0 8px 25px rgba(14, 165, 233, 0.3), 0 0 20px rgba(255, 255, 255, 0.8), inset 0 3px 6px
+    rgba(255, 255, 255, 0.9);
+}
+
+.theme-snow .theme-switcher::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  background: conic-gradient(
+    from 0deg,
+    rgba(255, 255, 255, 0.9) 0deg,
+    rgba(14, 165, 233, 0.4) 60deg,
+    rgba(255, 255, 255, 0.8) 120deg,
+    rgba(59, 130, 246, 0.5) 180deg,
+    rgba(255, 255, 255, 0.9) 240deg,
+    rgba(14, 165, 233, 0.3) 300deg,
+    rgba(255, 255, 255, 0.9) 360deg
+  );
+  border-radius: 50%;
+  opacity: 0;
+  animation: glacialSparkle 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.theme-snow .theme-switcher:hover::before {
+  opacity: 1;
+}
+
+.theme-snow .theme-switcher::after {
+  content: "🏔️";
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  opacity: 0;
+  animation: mountainPeak 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+}
+
+.theme-snow .theme-switcher:hover::after {
+  opacity: 1;
+}
+
+.theme-snow .theme-switcher:hover {
+  background: linear-gradient(145deg, #f0f8ff 0%, #e0f2fe 50%, #bae6fd 100%);
+  box-shadow: 0 12px 35px rgba(14, 165, 233, 0.4), 0 0 40px rgba(255, 255, 255, 0.9), 0 0 60px rgba(14, 165, 233, 0.3),
+    inset 0 4px 8px rgba(255, 255, 255, 1);
+  transform: scale(1.15);
+}
+
+/* Jungle Theme - Leaf Effect */
+.theme-jungle .theme-switcher {
+  background: linear-gradient(135deg, #1a2e1a 0%, #166534 100%);
+  border-color: #22c55e;
+  color: #22c55e;
+  position: relative;
+  overflow: visible;
+}
+
+.theme-jungle .theme-switcher::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  right: -6px;
+  bottom: -6px;
+  background: radial-gradient(circle at 25% 25%, rgba(34, 197, 94, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(22, 163, 74, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(187, 247, 208, 0.1) 0%, transparent 50%);
+  border-radius: 50%;
+  opacity: 0;
+  animation: jungleGrow 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.theme-jungle .theme-switcher:hover::before {
+  opacity: 1;
+}
+
+.theme-jungle .theme-switcher::after {
+  content: "🌿";
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+  opacity: 0;
+  animation: leafSway 1.8s ease-in-out infinite;
+}
+
+.theme-jungle .theme-switcher:hover::after {
+  opacity: 1;
+}
+
+.theme-jungle .theme-switcher:hover {
+  background: linear-gradient(135deg, #166534 0%, #15803d 100%);
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.4), 0 0 40px rgba(22, 163, 74, 0.3);
   transform: scale(1.15);
 }
 
@@ -440,6 +1031,83 @@
   }
 }
 
+/* Glacial animation keyframes */
+@keyframes glacialSparkle {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.9) rotate(0deg);
+  }
+  25% {
+    opacity: 0.8;
+    transform: scale(1.1) rotate(90deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3) rotate(180deg);
+  }
+  75% {
+    opacity: 0.7;
+    transform: scale(1.1) rotate(270deg);
+  }
+}
+
+@keyframes mountainPeak {
+  0% {
+    transform: translateX(-50%) translateY(-5px) rotate(0deg) scale(0.9);
+    opacity: 0.8;
+  }
+  25% {
+    transform: translateX(-50%) translateY(-8px) rotate(5deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) translateY(-12px) rotate(0deg) scale(1.1);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translateX(-50%) translateY(-8px) rotate(-5deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(-5px) rotate(0deg) scale(0.9);
+    opacity: 0.8;
+  }
+}
+
+/* Jungle animation keyframes */
+@keyframes jungleGrow {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes leafSway {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-5deg);
+    opacity: 0.8;
+  }
+  25% {
+    transform: translateX(-50%) rotate(5deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) rotate(-3deg);
+    opacity: 0.9;
+  }
+  75% {
+    transform: translateX(-50%) rotate(3deg);
+    opacity: 1;
+  }
+}
+
 /* Additional fire particles for extra effect */
 .theme-fire .theme-switcher:hover::before {
   animation: fireRotate 1.5s linear infinite, firePulse 2s ease-in-out infinite alternate;
@@ -500,6 +1168,23 @@
   animation: fireIconFlicker 1s ease-in-out infinite alternate;
 }
 
+.theme-snow .theme-switcher .theme-icon {
+  animation: snowIconSpin 8s linear infinite;
+  filter: drop-shadow(0 0 12px rgba(14, 165, 233, 0.6)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+}
+
+.theme-snow .theme-switcher:hover .theme-icon {
+  animation: snowIconSpin 3s linear infinite, glacialIconGlow 1.5s ease-in-out infinite alternate;
+}
+
+.theme-jungle .theme-switcher .theme-icon {
+  animation: jungleIconGrow 2s ease-in-out infinite alternate;
+}
+
+.theme-jungle .theme-switcher:hover .theme-icon {
+  animation: jungleIconGrow 1s ease-in-out infinite alternate, jungleShake 0.8s ease-in-out infinite;
+}
+
 @keyframes sunRotate {
   from {
     transform: rotate(0deg);
@@ -553,6 +1238,50 @@
   }
 }
 
+@keyframes snowIconSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes glacialIconGlow {
+  0% {
+    filter: drop-shadow(0 0 12px rgba(14, 165, 233, 0.6)) drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+    transform: scale(1);
+  }
+  100% {
+    filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.9)) drop-shadow(0 0 35px rgba(255, 255, 255, 1));
+    transform: scale(1.05);
+  }
+}
+
+@keyframes jungleIconGrow {
+  0% {
+    filter: drop-shadow(0 0 5px rgba(34, 197, 94, 0.5));
+    transform: scale(1);
+  }
+  100% {
+    filter: drop-shadow(0 0 15px rgba(34, 197, 94, 0.8));
+    transform: scale(1.1);
+  }
+}
+
+@keyframes jungleShake {
+  0%,
+  100% {
+    transform: scale(1.1) rotate(0deg);
+  }
+  25% {
+    transform: scale(1.1) rotate(-1deg);
+  }
+  75% {
+    transform: scale(1.1) rotate(1deg);
+  }
+}
+
 /* Additional magical particles for light theme */
 .theme-light .theme-switcher:hover {
   position: relative;
@@ -583,7 +1312,7 @@
   }
 }
 
-/* Fire theme specific elements */
+/* Theme-specific section titles */
 .theme-fire .section-title {
   background: linear-gradient(45deg, #fbbf24, #f97316);
   -webkit-background-clip: text;
@@ -591,6 +1320,22 @@
   background-clip: text;
 }
 
+.theme-snow .section-title {
+  background: linear-gradient(45deg, #0ea5e9, #3b82f6, #1d4ed8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 25px rgba(14, 165, 233, 0.3);
+}
+
+.theme-jungle .section-title {
+  background: linear-gradient(45deg, #22c55e, #16a34a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Theme-specific headings */
 .theme-fire .about-heading,
 .theme-fire .contact-heading,
 .theme-fire .timeline-title,
@@ -601,22 +1346,82 @@
   color: #fbbf24;
 }
 
+.theme-snow .about-heading,
+.theme-snow .contact-heading,
+.theme-snow .timeline-title,
+.theme-snow .project-title,
+.theme-snow .features-title,
+.theme-snow .credentials-title,
+.theme-snow .skill-category {
+  color: #0ea5e9;
+  text-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
+}
+
+.theme-jungle .about-heading,
+.theme-jungle .contact-heading,
+.theme-jungle .timeline-title,
+.theme-jungle .project-title,
+.theme-jungle .features-title,
+.theme-jungle .credentials-title,
+.theme-jungle .skill-category {
+  color: #22c55e;
+}
+
+/* Theme-specific stat numbers */
 .theme-fire .stat-number {
   color: #f97316;
   text-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
 }
 
+.theme-snow .stat-number {
+  color: #0ea5e9;
+  text-shadow: 0 0 20px rgba(14, 165, 233, 0.6);
+}
+
+.theme-jungle .stat-number {
+  color: #22c55e;
+  text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+/* Theme-specific contact icons */
 .theme-fire .contact-icon {
   background: linear-gradient(45deg, #451a03, #7c2d12);
   color: #f97316;
 }
 
+.theme-snow .contact-icon {
+  background: linear-gradient(145deg, #ffffff, #f0f8ff);
+  color: #0ea5e9;
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.2), 0 0 15px rgba(255, 255, 255, 0.5), inset 0 2px 4px
+    rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+}
+
+.theme-jungle .contact-icon {
+  background: linear-gradient(45deg, #166534, #15803d);
+  color: #22c55e;
+}
+
+/* Theme-specific filter buttons */
 .theme-fire .filter-btn.active {
   background: linear-gradient(45deg, #f97316, #ea580c);
   color: white;
   box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
 }
 
+.theme-snow .filter-btn.active {
+  background: linear-gradient(45deg, #0ea5e9, #3b82f6);
+  color: white;
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.4), 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+.theme-jungle .filter-btn.active {
+  background: linear-gradient(45deg, #22c55e, #16a34a);
+  color: white;
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+}
+
+/* Theme-specific credential items */
 .theme-fire .credential-item.admin {
   background: linear-gradient(45deg, #451a03, #7c2d12);
   border-color: #f97316;
@@ -625,4 +1430,71 @@
 .theme-fire .credential-item.employee {
   background: linear-gradient(45deg, #451a03, #7c2d12);
   border-color: #fbbf24;
+}
+
+.theme-snow .credential-item.admin {
+  background: linear-gradient(145deg, #ffffff, #f0f8ff);
+  border-color: #0ea5e9;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8), 0 4px 15px rgba(14, 165, 233, 0.1);
+}
+
+.theme-snow .credential-item.employee {
+  background: linear-gradient(145deg, #ffffff, #f0f8ff);
+  border-color: #3b82f6;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8), 0 4px 15px rgba(59, 130, 246, 0.1);
+}
+
+.theme-jungle .credential-item.admin {
+  background: linear-gradient(45deg, #166534, #15803d);
+  border-color: #22c55e;
+}
+
+.theme-jungle .credential-item.employee {
+  background: linear-gradient(45deg, #166534, #15803d);
+  border-color: #16a34a;
+}
+
+/* Himalayan snow theme specific card styling */
+.theme-snow .card {
+  background: linear-gradient(145deg, #ffffff 0%, #f0f8ff 100%);
+  border: 2px solid #bfdbfe;
+  box-shadow: 0 8px 32px rgba(14, 165, 233, 0.15), 0 0 20px rgba(255, 255, 255, 0.5), inset 0 2px 4px
+    rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+/* Himalayan snow theme sections with bright glacial atmosphere */
+.theme-snow .about-section,
+.theme-snow .projects-section,
+.theme-snow .contact-section {
+  background: linear-gradient(135deg, #fafcff 0%, #f0f8ff 100%);
+  position: relative;
+}
+
+.theme-snow .skills-section,
+.theme-snow .experience-section {
+  background: linear-gradient(135deg, #f0f8ff 0%, #e0f2fe 100%);
+  position: relative;
+}
+
+/* Add subtle bright snowfall to all snow theme sections */
+.theme-snow .about-section::before,
+.theme-snow .skills-section::before,
+.theme-snow .projects-section::before,
+.theme-snow .experience-section::before,
+.theme-snow .contact-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(2px 2px at 25px 35px, rgba(14, 165, 233, 0.3), transparent),
+    radial-gradient(1px 1px at 75px 85px, rgba(255, 255, 255, 0.8), transparent),
+    radial-gradient(2px 2px at 125px 45px, rgba(59, 130, 246, 0.2), transparent);
+  background-repeat: repeat;
+  background-size: 150px 100px;
+  animation: brightSnowfall 30s linear infinite;
+  pointer-events: none;
+  opacity: 0.4;
 }
