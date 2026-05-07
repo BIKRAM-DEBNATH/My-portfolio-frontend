@@ -24,11 +24,13 @@ import {
 } from "lucide-react"
 
 import bikramimg from "./image/bikram.jpg"
+import interviewImg from "./image/ChatGPT Image May 7, 2026, 10_07_07 PM.png"
 
 // Import CSS files
 import "./styles/components.css"
 import "./styles/layout.css"
 import "./styles/animations.css"
+import "./styles/ai-loading.css"
 import "./styles/themes.css"
 
 // Simple Button component
@@ -78,6 +80,33 @@ export default function Portfolio() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
+  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 })
+  const [isHovering, setIsHovering] = useState(false)
+
+  // Custom cursor tracking
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setCursorPos({ x: e.clientX, y: e.clientY })
+    }
+    const handleMouseOver = (e) => {
+      const target = e.target
+      if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button')) {
+        setIsHovering(true)
+      } else {
+        setIsHovering(false)
+      }
+    }
+    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mouseover', handleMouseOver)
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('mouseover', handleMouseOver)
+    }
+  }, [])
+
+  // Loading screen state
+  const [progress, setProgress] = useState(0)
+  const [statusMessage, setStatusMessage] = useState("Initializing AI System...")
 
   // Theme cycling function
   const cycleTheme = () => {
@@ -106,10 +135,34 @@ export default function Portfolio() {
   }
 
   useEffect(() => {
-    // Loading screen
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 2000)
+    // AI Loading sequence
+    const loadingMessages = [
+      "Initializing AI Core...",
+      "Loading Developer Profile...",
+      "Building Interface...",
+      "Calibrating Systems...",
+      "Access Granted"
+    ]
+    
+    let currentProgress = 0
+    const loadingInterval = setInterval(() => {
+      currentProgress += Math.random() * 12
+      if (currentProgress >= 100) {
+        currentProgress = 100
+        clearInterval(loadingInterval)
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 800)
+      }
+      setProgress(Math.min(currentProgress, 100))
+      
+      const msgIndex = Math.floor((currentProgress / 100) * loadingMessages.length)
+      setStatusMessage(loadingMessages[Math.min(msgIndex, loadingMessages.length - 1)])
+    }, 400)
+
+    return () => {
+      clearInterval(loadingInterval)
+    }
 
     // Scroll handler
     const handleScroll = () => {
@@ -129,7 +182,7 @@ export default function Portfolio() {
 
     window.addEventListener("scroll", handleScroll)
     return () => {
-      clearTimeout(timer)
+      clearInterval(loadingInterval)
       window.removeEventListener("scroll", handleScroll)
     }
   }, [])
@@ -145,6 +198,74 @@ export default function Portfolio() {
   const projects = [
     {
       id: 1,
+      title: "AI-Based Interview Platform",
+      description:
+        "An intelligent interview preparation app using AI to generate personalized questions, provide real-time feedback, and simulate mock interviews with voice recognition.",
+      image: interviewImg,
+      category: "web",
+      technologies: ["React.js", "Node.js", "Express.js", "MongoDB", "OpenAI API", "Web Speech API"],
+      features: [
+        "AI-generated personalized interview questions",
+        "Real-time speech recognition",
+        "Mock interview simulations",
+        "Performance analytics & feedback",
+        "Resume analysis with AI suggestions",
+      ],
+      github: "https://github.com/BIKRAM-DEBNATH",
+      live: "https://your-ai-interview.vercel.app",
+      loginCredentials: {
+        admin: {
+          email: "admin@aiinterview.com",
+          password: "admin123",
+        },
+      },
+    },
+    {
+      id: 2,
+      title: "Task Management System",
+      description:
+        "A comprehensive task management application with team collaboration, drag-drop kanban boards, priority levels, and deadline tracking.",
+      image:
+        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      category: "web",
+      technologies: ["React.js", "Node.js", "Express.js", "MongoDB", "Socket.io"],
+      features: [
+        "Drag-and-drop kanban boards",
+        "Team collaboration",
+        "Priority & deadline management",
+        "Real-time notifications",
+        "Task history & progress tracking",
+      ],
+      github: "https://github.com/BIKRAM-DEBNATH/taskmanager",
+      live: "https://taskmanager-eight-flame-52.vercel.app/login",
+    },
+    {
+      id: 3,
+      title: "Athletics Registration System",
+      description:
+        "A sports event management portal for athlete registrations, event scheduling, results tracking, and admin management.",
+      image:
+        "https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+      category: "web",
+      technologies: ["React.js", "Node.js", "Express.js", "MongoDB", "JWT"],
+      features: [
+        "Athlete registration portal",
+        "Event scheduling & management",
+        "Results publication",
+        "Category-wise competitions",
+        "Admin dashboard & reports",
+      ],
+      github: "https://github.com/BIKRAM-DEBNATH/clubsport",
+      live: "https://clubsport-olop.vercel.app",
+      loginCredentials: {
+        admin: {
+          email: "admin@sports.com",
+          password: "Admin@123",
+        },
+      },
+    },
+    {
+      id: 4,
       title: "Employee Management System",
       description:
         "A full-stack MERN application for office task tracking and leave management with role-based authentication.",
@@ -159,8 +280,8 @@ export default function Portfolio() {
         "Role-based protected routes",
         "Report generation with export",
       ],
-      github: "https://github.com/BIKRAM-DEBNATH", // 🔗 UPDATE: Add your actual GitHub repo link here
-      live: "https://your-employee-management.vercel.app", // 🔗 UPDATE: Add your actual live demo link here
+      github: "https://github.com/BIKRAM-DEBNATH",
+      live: "https://your-employee-management.vercel.app",
       loginCredentials: {
         admin: {
           email: "admin@example.com",
@@ -173,7 +294,7 @@ export default function Portfolio() {
       },
     },
     {
-      id: 2,
+      id: 5,
       title: "Weather Application",
       description:
         "Real-time weather forecast app with geolocation, city search, and favorites management using open APIs.",
@@ -188,8 +309,8 @@ export default function Portfolio() {
         "Favorite cities management",
         "LocalStorage synchronization",
       ],
-      github: "https://github.com/BIKRAM-DEBNATH/Weather-Appliction", // 🔗 UPDATE: Add your actual GitHub repo link here
-      live: "https://your-weather-app.vercel.app", // 🔗 UPDATE: Add your actual live demo link here
+      github: "https://github.com/BIKRAM-DEBNATH/Weather-Appliction",
+      live: "https://your-weather-app.vercel.app",
     },
   ]
 
@@ -266,10 +387,76 @@ export default function Portfolio() {
 
   if (isLoading) {
     return (
-      <div className={`loading-screen theme-${theme}`}>
-        <div className="loading-content">
-          <div className="loading-logo">BD</div>
-          <div className="loading-spinner"></div>
+      <div className="ai-loading-screen">
+        <div className="ai-bg-effects">
+          <div className="ai-grid"></div>
+          <div className="ai-particles"></div>
+          <div className="ai-scan-line"></div>
+        </div>
+        
+        <div className="ai-core">
+          <div className="ai-ring ai-ring-1">
+            <div className="ring-glow"></div>
+          </div>
+          <div className="ai-ring ai-ring-2">
+            <div className="ring-glow"></div>
+          </div>
+          <div className="ai-ring ai-ring-3">
+            <div className="ring-glow"></div>
+          </div>
+          <div className="ai-sphere">
+            <div className="sphere-core"></div>
+            <div className="sphere-pulse"></div>
+          </div>
+        </div>
+        
+        <div className="ai-hud">
+          <div className="hud-corner hud-tl"></div>
+          <div className="hud-corner hud-tr"></div>
+          <div className="hud-corner hud-bl"></div>
+          <div className="hud-corner hud-br"></div>
+          <div className="hud-line hud-line-1"></div>
+          <div className="hud-line hud-line-2"></div>
+        </div>
+        
+        <div className="ai-content">
+          <div className="ai-logo">
+            <span className="logo-text">BD</span>
+            <span className="logo-sub">Artificial Intelligence</span>
+          </div>
+          
+          <div className="dev-profile">
+            <div className="dev-name">Bikram Debnath</div>
+            <div className="dev-role">Java & MERN Stack Developer</div>
+            <div className="dev-status">
+              <span className="status-dot"></span>
+              Building the future with code
+            </div>
+            <div className="dev-mission">
+              Mission: Creating intelligent and immersive web experiences
+            </div>
+          </div>
+          
+          <div className="ai-status">
+            <div className="status-text" key={statusMessage}>{statusMessage}</div>
+            <div className="status-dots">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          
+          <div className="ai-progress">
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+            </div>
+            <div className="progress-text">Developer Profile Loaded {Math.round(progress)}%</div>
+          </div>
+          
+          <div className="ai-messages">
+            <div className="message-item">● Initializing AI Core</div>
+            <div className="message-item">● Loading Portfolio</div>
+            <div className={`message-item ${progress > 50 ? 'active' : ''}`}>● Building Interface</div>
+            <div className={`message-item ${progress > 80 ? 'active' : ''}`}>● Access Granted</div>
+          </div>
         </div>
       </div>
     )
@@ -277,6 +464,24 @@ export default function Portfolio() {
 
   return (
     <div className={`portfolio theme-${theme}`}>
+      {/* Custom Cursor */}
+      <div 
+        className="cursor-follower"
+        style={{
+          left: cursorPos.x - 10,
+          top: cursorPos.y - 10,
+          transform: isHovering ? 'scale(1.5)' : 'scale(1)',
+          borderColor: isHovering ? '#a855f7' : '#00ffff',
+        }}
+      />
+      <div 
+        className="cursor-dot"
+        style={{
+          left: cursorPos.x - 3,
+          top: cursorPos.y - 3,
+        }}
+      />
+      
       {/* Navigation */}
       <header className="header">
         <nav className="nav">
@@ -446,7 +651,7 @@ export default function Portfolio() {
 
               <div className="about-stats">
                 <div className="stat-item">
-                  <h4 className="stat-number">5+</h4>
+                  <h4 className="stat-number">10+</h4>
                   <p className="stat-label">Projects Built</p>
                 </div>
                 <div className="stat-item">
@@ -574,24 +779,28 @@ export default function Portfolio() {
                             <div className="credential-type">Admin Login:</div>
                           </div>
                           <div className="credential-info">
-                            Email: <code>{project.loginCredentials.admin.email}</code>
+                            Email: <code>{project.loginCredentials.admin?.email}</code>
                           </div>
                           <div className="credential-info">
-                            Password: <code>{project.loginCredentials.admin.password}</code>
+                            Password: <code>{project.loginCredentials.admin?.password}</code>
                           </div>
                         </div>
-                        <div className="credential-item employee">
-                          <div className="credential-header">
-                            <Lock className="h-4 w-4" />
-                            <div className="credential-type">Employee Login:</div>
+                        {(project.loginCredentials.employee || project.loginCredentials.athlete) && (
+                          <div className="credential-item employee">
+                            <div className="credential-header">
+                              <Lock className="h-4 w-4" />
+                              <div className="credential-type">
+                                {project.loginCredentials.athlete ? "Athlete Login:" : "Employee Login:"}
+                              </div>
+                            </div>
+                            <div className="credential-info">
+                              Email: <code>{project.loginCredentials.employee?.email || project.loginCredentials.athlete?.email}</code>
+                            </div>
+                            <div className="credential-info">
+                              Password: <code>{project.loginCredentials.employee?.password || project.loginCredentials.athlete?.password}</code>
+                            </div>
                           </div>
-                          <div className="credential-info">
-                            Email: <code>{project.loginCredentials.employee.email}</code>
-                          </div>
-                          <div className="credential-info">
-                            Password: <code>{project.loginCredentials.employee.password}</code>
-                          </div>
-                        </div>
+                        )}
                       </div>
                     </div>
                   )}
