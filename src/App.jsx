@@ -282,7 +282,7 @@ export default function Portfolio() {
         "LocalStorage synchronization",
       ],
       github: "https://github.com/BIKRAM-DEBNATH/Weather-Appliction",
-      live: "https://your-weather-app.vercel.app",
+      live: "https://lucky-palmier-69208e.netlify.app/",
     },
   ]
 
