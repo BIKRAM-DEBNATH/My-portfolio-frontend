@@ -11,13 +11,13 @@ import {
   ExternalLink,
   Menu,
   X,
-  Sun,
-  Moon,
-  ChevronUp,
   MapPin,
   Phone,
   User,
   Lock,
+  ChevronUp,
+  Sun,
+  Moon,
   Flame,
   Snowflake,
   Leaf,
@@ -26,51 +26,62 @@ import {
 import bikramimg from "./image/bikram.jpg"
 import interviewImg from "./image/ChatGPT Image May 7, 2026, 10_07_07 PM.png"
 
-// Import CSS files
+import "./styles/futuristic-theme.css"
 import "./styles/components.css"
 import "./styles/layout.css"
-import "./styles/animations.css"
-import "./styles/ai-loading.css"
 import "./styles/themes.css"
 
-// Simple Button component
-const Button = ({ children, onClick, className = "", variant = "default", size = "default", ...props }) => {
+import {
+  FuturisticCursor,
+  FuturisticParticles,
+  FuturisticBackground,
+  CinematicLoadingScreen,
+  FadeInSection,
+  StaggerContainer,
+  StaggerItem,
+  TiltCard,
+  FloatingIcon,
+  ScrollReveal,
+} from "./components/futuristic-components"
+
+const FuturisticButton = ({ children, onClick, className = "", variant = "primary", ...props }) => {
   return (
-    <button className={`btn btn-${variant} btn-${size} ${className}`} onClick={onClick} {...props}>
+    <button
+      className={`futuristic-btn futuristic-btn-${variant} ${className}`}
+      onClick={onClick}
+      {...props}
+    >
       {children}
     </button>
   )
 }
 
-// Simple Card components
 const Card = ({ children, className = "", ...props }) => (
-  <div className={`card ${className}`} {...props}>
+  <div className={`glass-card ${className}`} {...props}>
     {children}
   </div>
 )
 
 const CardContent = ({ children, className = "", ...props }) => (
-  <div className={`card-content ${className}`} {...props}>
+  <div className={className} {...props}>
     {children}
   </div>
 )
 
-// Simple Badge component
-const Badge = ({ children, className = "", variant = "default", ...props }) => {
-  return (
-    <div className={`badge badge-${variant} ${className}`} {...props}>
-      {children}
-    </div>
-  )
-}
+const Badge = ({ children, className = "", ...props }) => (
+  <span className={`tech-badge ${className}`} {...props}>
+    {children}
+  </span>
+)
 
 export default function Portfolio() {
   const [activeSection, setActiveSection] = useState("home")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [theme, setTheme] = useState("light") // light, dark, fire, snow, jungle
   const [isLoading, setIsLoading] = useState(true)
   const [showBackToTop, setShowBackToTop] = useState(false)
   const [activeFilter, setActiveFilter] = useState("all")
+  const [progress, setProgress] = useState(0)
+  const [statusMessage, setStatusMessage] = useState("Initializing AI Core...")
 
   const [formData, setFormData] = useState({
     name: "",
@@ -80,62 +91,27 @@ export default function Portfolio() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState(null)
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 })
-  const [isHovering, setIsHovering] = useState(false)
+  const [theme, setTheme] = useState("futuristic")
 
-  // Custom cursor tracking
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setCursorPos({ x: e.clientX, y: e.clientY })
-    }
-    const handleMouseOver = (e) => {
-      const target = e.target
-      if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('a') || target.closest('button')) {
-        setIsHovering(true)
-      } else {
-        setIsHovering(false)
-      }
-    }
-    window.addEventListener('mousemove', handleMouseMove)
-    window.addEventListener('mouseover', handleMouseOver)
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('mouseover', handleMouseOver)
-    }
-  }, [])
-
-  // Loading screen state
-  const [progress, setProgress] = useState(0)
-  const [statusMessage, setStatusMessage] = useState("Initializing AI System...")
-
-  // Theme cycling function
   const cycleTheme = () => {
-    const themes = ["light", "dark", "fire", "snow", "jungle"]
+    const themes = ["futuristic", "light", "dark", "fire", "snow", "jungle"]
     const currentIndex = themes.indexOf(theme)
     const nextIndex = (currentIndex + 1) % themes.length
     setTheme(themes[nextIndex])
   }
 
-  // Get theme icon
   const getThemeIcon = () => {
     switch (theme) {
-      case "light":
-        return <Sun className="h-5 w-5 theme-icon" />
-      case "dark":
-        return <Moon className="h-5 w-5 theme-icon" />
-      case "fire":
-        return <Flame className="h-5 w-5 theme-icon" />
-      case "snow":
-        return <Snowflake className="h-5 w-5 theme-icon" />
-      case "jungle":
-        return <Leaf className="h-5 w-5 theme-icon" />
-      default:
-        return <Sun className="h-5 w-5 theme-icon" />
+      case "light": return <Sun className="h-5 w-5" />
+      case "dark": return <Moon className="h-5 w-5" />
+      case "fire": return <Flame className="h-5 w-5" />
+      case "snow": return <Snowflake className="h-5 w-5" />
+      case "jungle": return <Leaf className="h-5 w-5" />
+      default: return <Sun className="h-5 w-5" />
     }
   }
 
   useEffect(() => {
-    // AI Loading sequence
     const loadingMessages = [
       "Initializing AI Core...",
       "Loading Developer Profile...",
@@ -160,11 +136,10 @@ export default function Portfolio() {
       setStatusMessage(loadingMessages[Math.min(msgIndex, loadingMessages.length - 1)])
     }, 400)
 
-    return () => {
-      clearInterval(loadingInterval)
-    }
+    return () => clearInterval(loadingInterval)
+  }, [])
 
-    // Scroll handler
+  useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 300)
 
@@ -173,7 +148,7 @@ export default function Portfolio() {
         const element = document.getElementById(section)
         if (element) {
           const rect = element.getBoundingClientRect()
-          return rect.top <= 100 && rect.bottom >= 100
+          return rect.top <= 150 && rect.bottom >= 150
         }
         return false
       })
@@ -181,10 +156,7 @@ export default function Portfolio() {
     }
 
     window.addEventListener("scroll", handleScroll)
-    return () => {
-      clearInterval(loadingInterval)
-      window.removeEventListener("scroll", handleScroll)
-    }
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   const scrollToSection = (sectionId) => {
@@ -330,6 +302,7 @@ export default function Portfolio() {
     ],
     database: [
       { name: "MongoDB", level: 80, icon: "🍃" },
+      { name: "MySQL", level: 75, icon: "🐬" },
       { name: "Mongoose", level: 75, icon: "📊" },
     ],
     tools: [
@@ -386,306 +359,183 @@ export default function Portfolio() {
   }
 
   if (isLoading) {
-    return (
-      <div className="ai-loading-screen">
-        <div className="ai-bg-effects">
-          <div className="ai-grid"></div>
-          <div className="ai-particles"></div>
-          <div className="ai-scan-line"></div>
-        </div>
-        
-        <div className="ai-core">
-          <div className="ai-ring ai-ring-1">
-            <div className="ring-glow"></div>
-          </div>
-          <div className="ai-ring ai-ring-2">
-            <div className="ring-glow"></div>
-          </div>
-          <div className="ai-ring ai-ring-3">
-            <div className="ring-glow"></div>
-          </div>
-          <div className="ai-sphere">
-            <div className="sphere-core"></div>
-            <div className="sphere-pulse"></div>
-          </div>
-        </div>
-        
-        <div className="ai-hud">
-          <div className="hud-corner hud-tl"></div>
-          <div className="hud-corner hud-tr"></div>
-          <div className="hud-corner hud-bl"></div>
-          <div className="hud-corner hud-br"></div>
-          <div className="hud-line hud-line-1"></div>
-          <div className="hud-line hud-line-2"></div>
-        </div>
-        
-        <div className="ai-content">
-          <div className="ai-logo">
-            <span className="logo-text">BD</span>
-            <span className="logo-sub">Artificial Intelligence</span>
-          </div>
-          
-          <div className="dev-profile">
-            <div className="dev-name">Bikram Debnath</div>
-            <div className="dev-role">Java & MERN Stack Developer</div>
-            <div className="dev-status">
-              <span className="status-dot"></span>
-              Building the future with code
-            </div>
-            <div className="dev-mission">
-              Mission: Creating intelligent and immersive web experiences
-            </div>
-          </div>
-          
-          <div className="ai-status">
-            <div className="status-text" key={statusMessage}>{statusMessage}</div>
-            <div className="status-dots">
-              <span></span><span></span><span></span>
-            </div>
-          </div>
-          
-          <div className="ai-progress">
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-            </div>
-            <div className="progress-text">Developer Profile Loaded {Math.round(progress)}%</div>
-          </div>
-          
-          <div className="ai-messages">
-            <div className="message-item">● Initializing AI Core</div>
-            <div className="message-item">● Loading Portfolio</div>
-            <div className={`message-item ${progress > 50 ? 'active' : ''}`}>● Building Interface</div>
-            <div className={`message-item ${progress > 80 ? 'active' : ''}`}>● Access Granted</div>
-          </div>
-        </div>
-      </div>
-    )
+    return <CinematicLoadingScreen progress={progress} statusMessage={statusMessage} />
   }
 
   return (
-    <div className={`portfolio theme-${theme}`}>
-      {/* Custom Cursor */}
-      <div 
-        className="cursor-follower"
-        style={{
-          left: cursorPos.x - 10,
-          top: cursorPos.y - 10,
-          transform: isHovering ? 'scale(1.5)' : 'scale(1)',
-          borderColor: isHovering ? '#a855f7' : '#00ffff',
-        }}
-      />
-      <div 
-        className="cursor-dot"
-        style={{
-          left: cursorPos.x - 3,
-          top: cursorPos.y - 3,
-        }}
-      />
-      
-      {/* Navigation */}
-      <header className="header">
-        <nav className="nav">
-          <div className="nav-container">
-            <div className="nav-brand">
-              <span className="brand-name">Bikram</span>
-              <span className="brand-accent">Dev</span>
-            </div>
+    <div className={`theme-futuristic theme-${theme}`}>
+      {theme === "futuristic" && (
+        <>
+          <FuturisticBackground />
+          <FuturisticParticles />
+          <FuturisticCursor />
+        </>
+      )}
 
-            <div className="nav-menu">
+      <header className="futuristic-nav">
+        <div className="nav-container">
+          <div className="nav-brand">
+            <span className="nav-brand-text">Bikram</span>
+            <span className="nav-brand-accent">.dev</span>
+          </div>
+
+          <div className="nav-links">
+            {["home", "about", "skills", "projects", "experience", "contact"].map((section) => (
+              <button
+                key={section}
+                onClick={() => scrollToSection(section)}
+                className={`nav-link ${activeSection === section ? "active" : ""}`}
+              >
+                {section}
+              </button>
+            ))}
+          </div>
+
+          <div className="nav-actions">
+            <button onClick={cycleTheme} className="theme-switcher futuristic-btn futuristic-btn-outline" title={`Switch to next theme`}>
+              {getThemeIcon()}
+            </button>
+            <button className="mobile-menu-btn futuristic-btn futuristic-btn-outline" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+        </div>
+
+        {isMenuOpen && (
+          <div className="mobile-menu">
+            <div className="mobile-menu-content">
               {["home", "about", "skills", "projects", "experience", "contact"].map((section) => (
-                <button
-                  key={section}
-                  onClick={() => scrollToSection(section)}
-                  className={`nav-link ${activeSection === section ? "active" : ""}`}
-                >
+                <button key={section} onClick={() => scrollToSection(section)} className="mobile-menu-link">
                   {section}
                 </button>
               ))}
             </div>
-
-            <div className="nav-actions">
-              <button
-                onClick={cycleTheme}
-                className="theme-switcher"
-                title={`Switch to ${
-                  theme === "light"
-                    ? "dark"
-                    : theme === "dark"
-                      ? "fire"
-                      : theme === "fire"
-                        ? "snow"
-                        : theme === "snow"
-                          ? "jungle"
-                          : "light"
-                } theme`}
-              >
-                {getThemeIcon()}
-              </button>
-
-              <button className="mobile-menu-btn btn btn-ghost btn-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </button>
-            </div>
           </div>
-
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="mobile-menu">
-              <div className="mobile-menu-content">
-                {["home", "about", "skills", "projects", "experience", "contact"].map((section) => (
-                  <button key={section} onClick={() => scrollToSection(section)} className="mobile-menu-link">
-                    {section}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </nav>
+        )}
       </header>
 
-      {/* Hero Section */}
-      <section id="home" className="hero-section">
-        <div className="hero-container">
-          <div className="hero-content">
-            <div className="hero-text">
-              <div className="hero-intro">
-                <p className="hero-greeting">Hello, I'm</p>
-                <h1 className="hero-name">Bikram Debnath</h1>
-                <h2 className="hero-title">Aspiring Full Stack Developer</h2>
-                <p className="hero-description">
-                  A passionate student with hands-on experience in the MERN stack. I build responsive web applications
-                  and solve real-world problems through code, constantly striving to grow as a developer.
-                </p>
-              </div>
+      <section id="home" className="futuristic-hero">
+        <div className="hero-content">
+          <div className="hero-text">
+            <FadeInSection>
+              <div className="hero-greeting">Hello, I am</div>
+              <h1 className="hero-name glitch-hover">Bikram Debnath</h1>
+              <h2 className="hero-title">Aspiring Full Stack Developer</h2>
+              <p className="hero-description">
+                A passionate student with hands-on experience in the MERN stack. I build responsive web applications
+                and solve real-world problems through code, constantly striving to grow as a developer.
+              </p>
+            </FadeInSection>
 
+            <FadeInSection delay={0.2}>
               <div className="hero-actions">
-                <Button onClick={() => scrollToSection("projects")} className="btn-primary">
-                  <Code className="mr-2 h-4 w-4" />
+                <FuturisticButton variant="primary" onClick={() => scrollToSection("projects")}>
+                  <Code className="h-4 w-4" />
                   View My Projects
-                </Button>
-                <Button variant="outline" onClick={() => scrollToSection("contact")}>
-                  <Mail className="mr-2 h-4 w-4" />
+                </FuturisticButton>
+                <FuturisticButton variant="outline" onClick={() => scrollToSection("contact")}>
+                  <Mail className="h-4 w-4" />
                   Get In Touch
-                </Button>
+                </FuturisticButton>
               </div>
+            </FadeInSection>
 
+            <FadeInSection delay={0.3}>
               <div className="hero-social">
-                {/* 🔗 UPDATE: Replace with your actual social media links */}
-                <a
-                  href="https://github.com/BIKRAM-DEBNATH"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="social-link"
-                >
+                <a href="https://github.com/BIKRAM-DEBNATH" target="_blank" rel="noreferrer noopener" className="social-btn">
                   <Github className="h-5 w-5" />
                 </a>
-                <a
-                  href="https://www.linkedin.com/in/bikram-debnath-90110a34b"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="social-link"
-                >
+                <a href="https://www.linkedin.com/in/bikram-debnath-90110a34b" target="_blank" rel="noreferrer noopener" className="social-btn">
                   <Linkedin className="h-5 w-5" />
                 </a>
-                <a
-                  href="https://twitter.com/your-twitter-handle"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="social-link"
-                >
+                <a href="https://twitter.com/your-twitter-handle" target="_blank" rel="noreferrer noopener" className="social-btn">
                   <Twitter className="h-5 w-5" />
                 </a>
               </div>
-            </div>
+            </FadeInSection>
+          </div>
 
-            <div className="hero-image">
-              <div className="profile-container">
-                {/* 🖼️ UPDATE: Replace with your actual profile image */}
-                <img
-                  src={bikramimg || "/placeholder.svg"}
-                  alt="Bikram Debnath - BCA Student & Developer"
-                  className="profile-image"
-                />
-                <div className="profile-overlay"></div>
-
-                {/* Floating Tech Icons */}
-                <div className="tech-icon tech-icon-1">⚛️</div>
-                <div className="tech-icon tech-icon-2">🟢</div>
-                <div className="tech-icon tech-icon-3">🍃</div>
-                <div className="tech-icon tech-icon-4">⚡</div>
+          <FadeInSection delay={0.4}>
+            <div className="hero-image-container">
+              <div className="hero-profile-frame">
+                <div className="hero-profile-ring" />
+                <div className="hero-profile-ring-inner" />
+                <img src={bikramimg || "/placeholder.svg"} alt="Bikram Debnath" className="hero-profile-img" />
+                <FloatingIcon delay={0} className="floating-icon" style={{ top: "10%", right: "-20px" }}>⚛️</FloatingIcon>
+                <FloatingIcon delay={1} className="floating-icon" style={{ bottom: "10%", left: "-20px" }}>🟢</FloatingIcon>
+                <FloatingIcon delay={2} className="floating-icon" style={{ top: "50%", right: "-30px" }}>🍃</FloatingIcon>
+                <FloatingIcon delay={0.5} className="floating-icon" style={{ top: "30%", left: "-30px" }}>⚡</FloatingIcon>
               </div>
             </div>
-          </div>
+          </FadeInSection>
+        </div>
 
-          <div className="scroll-indicator">
-            <ChevronDown className="h-6 w-6" />
+        <div className="scroll-indicator">
+          <div className="scroll-mouse">
+            <div className="scroll-wheel" />
           </div>
+          <ChevronDown className="h-5 w-5" />
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="about-section">
+      <section id="about" className="futuristic-section">
         <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">About Me</h2>
-            <p className="section-subtitle">Get to know me better</p>
-          </div>
+          <ScrollReveal>
+            <div className="section-header">
+              <div className="section-label">Get to know me</div>
+              <h2 className="section-title">About Me</h2>
+              <p className="section-subtitle">Passionate BCA Student & Developer</p>
+            </div>
+          </ScrollReveal>
 
           <div className="about-content">
-            <div className="about-text">
-              <h3 className="about-heading">Passionate BCA Student & Developer</h3>
-              <p className="about-paragraph">
-                I'm Bikram Debnath, a passionate and dedicated BCA student with a strong foundation in full-stack web
-                development. I specialize in the MERN stack — MongoDB, Express, React, and Node.js — and enjoy building
-                modern, user-centric web applications that solve real-world problems.
-              </p>
-              <p className="about-paragraph">
-                My journey in development has been driven by curiosity, consistency, and a commitment to learning. I'm
-                experienced in creating responsive interfaces, developing secure backend systems, integrating APIs,
-                managing state efficiently, and deploying full-stack applications to the web.
-              </p>
-              <p className="about-paragraph">
-                Currently, I'm seeking internship or entry-level opportunities where I can contribute meaningfully to a
-                development team, grow under mentorship, and continue evolving as a full-stack developer.
-              </p>
+            <ScrollReveal>
+              <div className="about-text">
+                <p className="about-paragraph">
+                  I'm Bikram Debnath, a passionate and dedicated BCA student with a strong foundation in full-stack web
+                  development. I specialize in the MERN stack — MongoDB, Express, React, and Node.js — and enjoy building
+                  modern, user-centric web applications that solve real-world problems.
+                </p>
+                <p className="about-paragraph">
+                  My journey in development has been driven by curiosity, consistency, and a commitment to learning. I'm
+                  experienced in creating responsive interfaces, developing secure backend systems, integrating APIs,
+                  managing state efficiently, and deploying full-stack applications to the web.
+                </p>
+                <p className="about-paragraph">
+                  Currently, I'm seeking internship or entry-level opportunities where I can contribute meaningfully to a
+                  development team, grow under mentorship, and continue evolving as a full-stack developer.
+                </p>
 
-              <div className="about-stats">
-                <div className="stat-item">
-                  <h4 className="stat-number">10+</h4>
-                  <p className="stat-label">Projects Built</p>
-                </div>
-                <div className="stat-item">
-                  <h4 className="stat-number">10+</h4>
-                  <p className="stat-label">Technologies</p>
+                <div className="about-stats">
+                  <div className="stat-card">
+                    <div className="stat-number">10+</div>
+                    <div className="stat-label">Projects Built</div>
+                  </div>
+                  <div className="stat-card">
+                    <div className="stat-number">10+</div>
+                    <div className="stat-label">Technologies</div>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div className="about-image">
-              {/* 🖼️ UPDATE: Replace with your actual about image */}
-              <img
-                src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
-                alt="About Bikram"
-                className="about-img"
-              />
-              <div className="about-img-overlay"></div>
-            </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section id="skills" className="skills-section">
+      <section id="skills" className="futuristic-section futuristic-section-alt">
         <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Technical Skills</h2>
-            <p className="section-subtitle">Technologies I work with</p>
-          </div>
+          <ScrollReveal>
+            <div className="section-header">
+              <div className="section-label">My Expertise</div>
+              <h2 className="section-title">Technical Skills</h2>
+              <p className="section-subtitle">Technologies I work with</p>
+            </div>
+          </ScrollReveal>
 
-          <div className="skills-grid">
-            {Object.entries(skills).map(([category, skillList]) => (
-              <Card key={category} className="skill-card">
-                <CardContent>
+          <StaggerContainer delay={0.1}>
+            <div className="skills-grid">
+              {Object.entries(skills).map(([category, skillList]) => (
+                <div key={category} className="skill-card">
                   <h3 className="skill-category">
                     {category === "frontend" && "🎨 Frontend"}
                     {category === "backend" && "⚙️ Backend"}
@@ -695,142 +545,140 @@ export default function Portfolio() {
                   </h3>
                   <div className="skill-list">
                     {skillList.map((skill) => (
-                      <div key={skill.name} className="skill-item">
-                        <div className="skill-header">
-                          <span className="skill-name">
-                            <span className="skill-icon">{skill.icon}</span>
-                            {skill.name}
-                          </span>
-                          <span className="skill-percentage">{skill.level}%</span>
+                      <StaggerItem key={skill.name}>
+                        <div className="skill-item">
+                          <div className="skill-header">
+                            <span className="skill-name">
+                              <span className="skill-icon">{skill.icon}</span>
+                              {skill.name}
+                            </span>
+                            <span className="skill-percentage">{skill.level}%</span>
+                          </div>
+                          <div className="skill-bar">
+                            <div className="skill-progress" style={{ width: `${skill.level}%` }}></div>
+                          </div>
                         </div>
-                        <div className="skill-bar">
-                          <div className="skill-progress" style={{ width: `${skill.level}%` }}></div>
-                        </div>
-                      </div>
+                      </StaggerItem>
                     ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Section */}
-      <section id="projects" className="projects-section">
-        <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Featured Projects</h2>
-            <p className="section-subtitle">Some of my recent work</p>
-          </div>
-
-          <div className="project-filters">
-            <div className="filter-buttons">
-              {["all", "web", "mobile", "api"].map((filter) => (
-                <button
-                  key={filter}
-                  onClick={() => setActiveFilter(filter)}
-                  className={`filter-btn ${activeFilter === filter ? "active" : ""}`}
-                >
-                  {filter}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="projects-grid">
-            {filteredProjects.map((project) => (
-              <Card key={project.id} className="project-card">
-                <div className="project-image">
-                  <img src={project.image || "/placeholder.svg"} alt={project.title} className="project-img" />
-                  <div className="project-overlay">
-                    <a href={project.live} target="_blank" rel="noreferrer noopener" className="project-link">
-                      <ExternalLink className="h-5 w-5" />
-                    </a>
-                    <a href={project.github} target="_blank" rel="noreferrer noopener" className="project-link">
-                      <Github className="h-5 w-5" />
-                    </a>
                   </div>
                 </div>
-                <CardContent>
-                  <h3 className="project-title">{project.title}</h3>
-                  <p className="project-description">{project.description}</p>
-
-                  <div className="project-features">
-                    <h4 className="features-title">Key Features:</h4>
-                    <ul className="features-list">
-                      {project.features.slice(0, 3).map((feature, index) => (
-                        <li key={index} className="feature-item">
-                          <span className="feature-bullet">•</span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Login Credentials Section */}
-                  {project.loginCredentials && (
-                    <div className="login-credentials">
-                      <h4 className="credentials-title">Demo Login Credentials:</h4>
-                      <div className="credentials-list">
-                        <div className="credential-item admin">
-                          <div className="credential-header">
-                            <User className="h-4 w-4" />
-                            <div className="credential-type">Admin Login:</div>
-                          </div>
-                          <div className="credential-info">
-                            Email: <code>{project.loginCredentials.admin?.email}</code>
-                          </div>
-                          <div className="credential-info">
-                            Password: <code>{project.loginCredentials.admin?.password}</code>
-                          </div>
-                        </div>
-                        {(project.loginCredentials.employee || project.loginCredentials.athlete) && (
-                          <div className="credential-item employee">
-                            <div className="credential-header">
-                              <Lock className="h-4 w-4" />
-                              <div className="credential-type">
-                                {project.loginCredentials.athlete ? "Athlete Login:" : "Employee Login:"}
-                              </div>
-                            </div>
-                            <div className="credential-info">
-                              Email: <code>{project.loginCredentials.employee?.email || project.loginCredentials.athlete?.email}</code>
-                            </div>
-                            <div className="credential-info">
-                              Password: <code>{project.loginCredentials.employee?.password || project.loginCredentials.athlete?.password}</code>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="project-technologies">
-                    {project.technologies.map((tech) => (
-                      <Badge key={tech} variant="secondary" className="tech-badge">
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+              ))}
+            </div>
+          </StaggerContainer>
         </div>
       </section>
 
-      {/* Experience/Education Section */}
-      <section id="experience" className="experience-section">
+      <section id="projects" className="futuristic-section">
         <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Education & Learning Journey</h2>
-            <p className="section-subtitle">My academic and self-learning path</p>
+          <ScrollReveal>
+            <div className="section-header">
+              <div className="section-label">My Work</div>
+              <h2 className="section-title">Featured Projects</h2>
+              <p className="section-subtitle">Some of my recent work</p>
+            </div>
+          </ScrollReveal>
+
+          <div className="filter-buttons">
+            {["all", "web", "mobile", "api"].map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`filter-btn ${activeFilter === filter ? "active" : ""}`}
+              >
+                {filter}
+              </button>
+            ))}
           </div>
 
-          <div className="timeline">
-            <div className="timeline-line"></div>
+          <StaggerContainer delay={0.1}>
+            <div className="projects-grid">
+              {filteredProjects.map((project) => (
+                <TiltCard key={project.id} className="project-card">
+                  <div className="project-image">
+                    <img src={project.image || "/placeholder.svg"} alt={project.title} className="project-img" />
+                    <div className="project-overlay">
+                      <a href={project.live} target="_blank" rel="noreferrer noopener" className="project-link">
+                        <ExternalLink className="h-5 w-5" />
+                      </a>
+                      <a href={project.github} target="_blank" rel="noreferrer noopener" className="project-link">
+                        <Github className="h-5 w-5" />
+                      </a>
+                    </div>
+                  </div>
+                  <CardContent className="project-content">
+                    <h3 className="project-title">{project.title}</h3>
+                    <p className="project-description">{project.description}</p>
 
-            <div className="timeline-items">
+                    <div className="project-features">
+                      <h4 className="features-title">Key Features:</h4>
+                      <ul className="features-list">
+                        {project.features.slice(0, 3).map((feature, index) => (
+                          <li key={index} className="feature-item">
+                            {feature}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {project.loginCredentials && (
+                      <div className="login-credentials">
+                        <h4 className="credentials-title">Demo Login Credentials:</h4>
+                        <div className="credentials-list">
+                          <div className="credential-item">
+                            <div className="credential-header">
+                              <User className="h-4 w-4" />
+                              Admin Login
+                            </div>
+                            <div className="credential-info">
+                              Email: <code>{project.loginCredentials.admin?.email}</code>
+                            </div>
+                            <div className="credential-info">
+                              Password: <code>{project.loginCredentials.admin?.password}</code>
+                            </div>
+                          </div>
+                          {(project.loginCredentials.employee || project.loginCredentials.athlete) && (
+                            <div className="credential-item">
+                              <div className="credential-header">
+                                <Lock className="h-4 w-4" />
+                                {project.loginCredentials.athlete ? "Athlete" : "Employee"} Login
+                              </div>
+                              <div className="credential-info">
+                                Email: <code>{project.loginCredentials.employee?.email || project.loginCredentials.athlete?.email}</code>
+                              </div>
+                              <div className="credential-info">
+                                Password: <code>{project.loginCredentials.employee?.password || project.loginCredentials.athlete?.password}</code>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="project-technologies">
+                      {project.technologies.map((tech) => (
+                        <Badge key={tech}>{tech}</Badge>
+                      ))}
+                    </div>
+                  </CardContent>
+                </TiltCard>
+              ))}
+            </div>
+          </StaggerContainer>
+        </div>
+      </section>
+
+      <section id="experience" className="futuristic-section futuristic-section-alt">
+        <div className="container">
+          <ScrollReveal>
+            <div className="section-header">
+              <div className="section-label">My Journey</div>
+              <h2 className="section-title">Education & Learning</h2>
+              <p className="section-subtitle">My academic and self-learning path</p>
+            </div>
+          </ScrollReveal>
+
+          <StaggerContainer delay={0.2}>
+            <div className="timeline">
               <div className="timeline-item">
                 <div className="timeline-marker"></div>
                 <div className="timeline-content">
@@ -842,9 +690,9 @@ export default function Portfolio() {
                     Actively working on practical projects to apply theoretical concepts.
                   </p>
                   <ul className="timeline-list">
-                    <li>• Strong focus on web development technologies</li>
-                    <li>• Hands-on experience with MERN stack projects</li>
-                    <li>• Self-motivated learning approach</li>
+                    <li>Strong focus on web development technologies</li>
+                    <li>Hands-on experience with MERN stack projects</li>
+                    <li>Self-motivated learning approach</li>
                   </ul>
                 </div>
               </div>
@@ -860,9 +708,9 @@ export default function Portfolio() {
                     real-world projects. Focus on MERN stack and deployment practices.
                   </p>
                   <ul className="timeline-list">
-                    <li>• Built 5+ full-stack applications</li>
-                    <li>• Experienced with deployment on Vercel and Railway</li>
-                    <li>• Strong problem-solving skills in debugging and optimization</li>
+                    <li>Built 5+ full-stack applications</li>
+                    <li>Experienced with deployment on Vercel and Railway</li>
+                    <li>Strong problem-solving skills</li>
                   </ul>
                 </div>
               </div>
@@ -878,107 +726,88 @@ export default function Portfolio() {
                     concepts and improves technical skills.
                   </p>
                   <ul className="timeline-list">
-                    <li>• Employee Management System with role-based auth</li>
-                    <li>• Weather Application with API integration</li>
-                    <li>• Version control with Git and GitHub</li>
+                    <li>Employee Management System with role-based auth</li>
+                    <li>Weather Application with API integration</li>
+                    <li>Version control with Git and GitHub</li>
                   </ul>
                 </div>
               </div>
             </div>
-          </div>
+          </StaggerContainer>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="contact-section">
+      <section id="contact" className="futuristic-section">
         <div className="container">
-          <div className="section-header">
-            <h2 className="section-title">Get In Touch</h2>
-            <p className="section-subtitle">Let's connect and discuss opportunities</p>
-          </div>
+          <ScrollReveal>
+            <div className="section-header">
+              <div className="section-label">Contact</div>
+              <h2 className="section-title">Get In Touch</h2>
+              <p className="section-subtitle">Let's connect and discuss opportunities</p>
+            </div>
+          </ScrollReveal>
 
           <div className="contact-content">
-            <div className="contact-info">
-              <div className="contact-intro">
-                <h3 className="contact-heading">Let's Connect</h3>
+            <ScrollReveal>
+              <div className="contact-info">
+                <div className="contact-heading">Let's Connect</div>
                 <p className="contact-text">
                   I'm actively seeking internship opportunities and would love to contribute to exciting projects.
                   Whether you have a question about my work or want to discuss potential collaborations, feel free to
                   reach out!
                 </p>
-              </div>
 
-              <div className="contact-details">
-                <div className="contact-item">
-                  <div className="contact-icon">
-                    <Mail className="h-6 w-6" />
+                <div className="contact-details">
+                  <div className="contact-item">
+                    <div className="contact-icon">
+                      <Mail className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <div className="contact-label">Email</div>
+                      <div className="contact-value">bikramdebnath905@gmail.com</div>
+                    </div>
                   </div>
-                  <div className="contact-detail">
-                    <h4 className="contact-label">Email</h4>
-                    {/* 📧 UPDATE: Replace with your actual email */}
-                    <p className="contact-value">bikramdebnath905@gmail.com</p>
+
+                  <div className="contact-item">
+                    <div className="contact-icon">
+                      <Phone className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <div className="contact-label">Phone</div>
+                      <div className="contact-value">+91 6294920220</div>
+                    </div>
+                  </div>
+
+                  <div className="contact-item">
+                    <div className="contact-icon">
+                      <MapPin className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <div className="contact-label">Location</div>
+                      <div className="contact-value">Kolkata, West Bengal, India</div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="contact-item">
-                  <div className="contact-icon">
-                    <Phone className="h-6 w-6" />
-                  </div>
-                  <div className="contact-detail">
-                    <h4 className="contact-label">Phone</h4>
-                    {/* 📞 UPDATE: Replace with your actual phone number */}
-                    <p className="contact-value">+91 6294920220</p>
-                  </div>
-                </div>
-
-                <div className="contact-item">
-                  <div className="contact-icon">
-                    <MapPin className="h-6 w-6" />
-                  </div>
-                  <div className="contact-detail">
-                    <h4 className="contact-label">Location</h4>
-                    {/* 📍 UPDATE: Replace with your actual location */}
-                    <p className="contact-value">Kolkata, West Bengal, India</p>
-                  </div>
+                <div className="contact-social">
+                  <a href="https://github.com/BIKRAM-DEBNATH" target="_blank" rel="noreferrer noopener" className="social-btn">
+                    <Github className="h-6 w-6" />
+                  </a>
+                  <a href="https://www.linkedin.com/in/bikram-debnath-90110a34b" target="_blank" rel="noreferrer noopener" className="social-btn">
+                    <Linkedin className="h-6 w-6" />
+                  </a>
+                  <a href="https://twitter.com/your-twitter-handle" target="_blank" rel="noreferrer noopener" className="social-btn">
+                    <Twitter className="h-6 w-6" />
+                  </a>
                 </div>
               </div>
+            </ScrollReveal>
 
-              <div className="contact-social">
-                {/* 🔗 UPDATE: Replace with your actual social media links */}
-                <a
-                  href="https://github.com/BIKRAM-DEBNATH"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="social-btn"
-                >
-                  <Github className="h-6 w-6" />
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/bikram-debnath-90110a34b"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="social-btn"
-                >
-                  <Linkedin className="h-6 w-6" />
-                </a>
-                <a
-                  href="https://twitter.com/your-twitter-handle"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="social-btn"
-                >
-                  <Twitter className="h-6 w-6" />
-                </a>
-              </div>
-            </div>
-
-            <Card className="contact-form-card">
-              <CardContent>
+            <ScrollReveal delay={0.2}>
+              <div className="contact-form-card">
                 <form className="contact-form" onSubmit={handleSubmit}>
                   <div className="form-group">
-                    <label htmlFor="name" className="form-label">
-                      Full Name
-                    </label>
+                    <label htmlFor="name" className="form-label">Full Name</label>
                     <input
                       type="text"
                       id="name"
@@ -990,9 +819,7 @@ export default function Portfolio() {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="email" className="form-label">
-                      Email Address
-                    </label>
+                    <label htmlFor="email" className="form-label">Email Address</label>
                     <input
                       type="email"
                       id="email"
@@ -1004,9 +831,7 @@ export default function Portfolio() {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="subject" className="form-label">
-                      Subject
-                    </label>
+                    <label htmlFor="subject" className="form-label">Subject</label>
                     <input
                       type="text"
                       id="subject"
@@ -1018,9 +843,7 @@ export default function Portfolio() {
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="message" className="form-label">
-                      Message
-                    </label>
+                    <label htmlFor="message" className="form-label">Message</label>
                     <textarea
                       id="message"
                       name="message"
@@ -1033,12 +856,12 @@ export default function Portfolio() {
                   </div>
 
                   {submitStatus === "success" && (
-                    <div className="form-success">✅ Message sent successfully! I'll get back to you soon.</div>
+                    <div className="form-success">Message sent successfully! I'll get back to you soon.</div>
                   )}
 
                   {submitStatus === "error" && (
                     <div className="form-error">
-                      ❌ Failed to send message. Please try again or contact me directly.
+                      Failed to send message. Please try again or contact me directly.
                     </div>
                   )}
 
@@ -1047,43 +870,31 @@ export default function Portfolio() {
                     {isSubmitting ? "Sending..." : "Send Message"}
                   </button>
                 </form>
-              </CardContent>
-            </Card>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-content">
-            <div className="footer-info">
-              <p className="footer-copyright">&copy; 2024 Bikram Debnath. All rights reserved.</p>
-              <p className="footer-credit">Designed & Built with ❤️ by Bikram Debnath</p>
-            </div>
-            <div className="footer-nav">
-              <button onClick={() => scrollToSection("home")} className="footer-link">
-                Home
-              </button>
-              <button onClick={() => scrollToSection("about")} className="footer-link">
-                About
-              </button>
-              <button onClick={() => scrollToSection("projects")} className="footer-link">
-                Projects
-              </button>
-              <button onClick={() => scrollToSection("contact")} className="footer-link">
-                Contact
-              </button>
-            </div>
+      <footer className="futuristic-footer">
+        <div className="footer-content">
+          <div className="footer-info">
+            <p className="footer-copyright">&copy; 2024 Bikram Debnath. All rights reserved.</p>
+            <p className="footer-credit">Designed & Built with passion by Bikram Debnath</p>
+          </div>
+          <div className="footer-nav">
+            <button onClick={() => scrollToSection("home")} className="footer-link">Home</button>
+            <button onClick={() => scrollToSection("about")} className="footer-link">About</button>
+            <button onClick={() => scrollToSection("projects")} className="footer-link">Projects</button>
+            <button onClick={() => scrollToSection("contact")} className="footer-link">Contact</button>
           </div>
         </div>
       </footer>
 
-      {/* Back to Top Button */}
       {showBackToTop && (
-        <Button onClick={() => scrollToSection("home")} className="back-to-top" size="icon">
+        <button className="back-to-top" onClick={() => scrollToSection("home")}>
           <ChevronUp className="h-5 w-5" />
-        </Button>
+        </button>
       )}
     </div>
   )

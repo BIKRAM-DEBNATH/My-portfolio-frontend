@@ -6,7 +6,6 @@ import { Canvas, useFrame } from "@react-three/fiber"
 export const CustomCursor = () => {
   const cursorX = useMotionValue(-100)
   const cursorY = useMotionValue(-100)
-  const cursorRef = useRef(null)
   const [isVisible, setIsVisible] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
   const springConfig = { damping: 25, stiffness: 500 }
@@ -59,36 +58,24 @@ export const CustomCursor = () => {
 const ParticlesBackground = ({ count = 100 }) => {
   const points = useRef()
   const countRef = useRef(count)
-  
-  const positions = new Float32Array(countRef.current * 3)
-  const velocities = useRef(new Float32Array(countRef.current * 3))
+  const positionsRef = useRef(new Float32Array(countRef.current * 3))
   
   useEffect(() => {
     for (let i = 0; i < countRef.current; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 10
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 10
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 10
-      
-      velocities.current[i * 3] = (Math.random() - 0.5) * 0.01
-      velocities.current[i * 3 + 1] = (Math.random() - 0.5) * 0.01
-      velocities.current[i * 3 + 2] = (Math.random() - 0.5) * 0.01
+      positionsRef.current[i * 3] = (Math.random() - 0.5) * 10
+      positionsRef.current[i * 3 + 1] = (Math.random() - 0.5) * 10
+      positionsRef.current[i * 3 + 2] = (Math.random() - 0.5) * 10
     }
-  }, [countRef])
+  }, [])
 
   useFrame(() => {
     if (!points.current) return
     
     const positionAttr = points.current.geometry.attributes.position
     for (let i = 0; i < countRef.current; i++) {
-      positionAttr.array[i * 3] += velocities.current[i * 3]
-      positionAttr.array[i * 3 + 1] += velocities.current[i * 3 + 1]
-      positionAttr.array[i * 3 + 2] += velocities.current[i * 3 + 2]
-      
-      for (let j = 0; j < 3; j++) {
-        if (Math.abs(positionAttr.array[i * 3 + j]) > 5) {
-          velocities.current[i * 3 + j] *= -1
-        }
-      }
+      positionAttr.array[i * 3] = positionsRef.current[i * 3] + Math.sin(Date.now() * 0.001 + i) * 0.02
+      positionAttr.array[i * 3 + 1] = positionsRef.current[i * 3 + 1] + Math.cos(Date.now() * 0.001 + i) * 0.02
+      positionAttr.array[i * 3 + 2] = positionsRef.current[i * 3 + 2]
     }
     positionAttr.needsUpdate = true
   })
@@ -99,7 +86,7 @@ const ParticlesBackground = ({ count = 100 }) => {
         <bufferAttribute
           attach="attributes-position"
           count={countRef.current}
-          array={positions}
+          array={positionsRef.current}
           itemSize={3}
         />
       </bufferGeometry>
